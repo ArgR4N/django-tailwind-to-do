@@ -1,0 +1,35 @@
+<article class="flex items-center {% if toDo.is_done %} bg-green-50 {%else%} bg-neutral-200 {% endif %} rounded-xl mb-5 shadow-xl shadow-gray-300/50" >
+    <div class="w-4/5 py-3">
+        <p 
+            class="px-6 text-2xl text-gray-900"
+        >
+            {{ toDo.title }}
+        </p>
+    </div>
+
+    <div class="w-1/5 px-6 py-3 flex justify-end space-x-4 ">
+            <form
+                hx-put="/done-toDo/{{ toDo.id }}/"
+                hx-target="closest article"
+                hx-swap="outerHTML"
+                class=""
+            >
+                <button class="text-sky-600 hover:text-sky-900">
+                    {%if toDo.is_done%}
+                        Undone
+                    {%else%}
+                        Done
+                    {%endif%}
+                </button>
+            </form>
+        <a 
+            href="#" 
+            class="text-sky-600 hover:text-sky-900"
+            hx-target="closest article"
+            hx-swap="outerHTML swap:1s"
+            hx-delete="/delete-toDo/{{ toDo.id }}/"
+        >
+            Delete
+        </a>
+    </div>
+</article>

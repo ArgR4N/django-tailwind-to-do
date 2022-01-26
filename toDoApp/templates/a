@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do App</title>
+    <!--Boostrap Icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!--Tailwind CDN-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--Tailwind Config-->
+    <script>
+      tailwind.config = {
+      }
+    </script>
+</head>
+<body>
+    <div>
+        <form 
+      hx-post="/add-toDo/"  
+      hx-target="#list"  
+      hx-swap="afterend"
+        >
+            <input type="text" name="title" placeholder="The title">
+            <button>Create</button>
+        </form>
+        <div id="list" >
+            {% for toDo in toDoList %}
+              {% include 'toDoApp/partials/toDoItem.html'%}
+            {% endfor  %}
+        </div>
+    
+    </div>
+
+</body>
+ <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+ <script >
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        });
+
+        document.body.addEventListener('htmx:afterRequest', (event) => {
+            document.querySelector("input.title").value = '';
+        });
+ </script>
+  
+</html>
